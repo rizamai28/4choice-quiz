@@ -44,7 +44,7 @@ const setupQuiz = () => {
   $quizNumber.textContent = quizCount;
 
   // プログレスバーの設定
-  $progress.style.width = `${(quizIndex)/(quiz.length) * 100}%`;
+  $progress.style.width = `${(quizIndex / quiz.length) * 100}%`;
 
   // 右上の残りの問題数を設定
   $quizRemainNum.textContent = quiz.length + 1 - quizCount;
@@ -60,26 +60,28 @@ const setupQuiz = () => {
 setupQuiz();
 
 const clickHandler = (e) => {
-  if (quiz[quizIndex].correct === e.target.textContent) {
-    alert("◎ 正解！！");
-    score++;
-  } else {
-    alert(`× 不正解！\n正解は "${quiz[quizIndex].correct}" です`);
-  }
-  // 次の問題へ進むためのインデックス変数
-  quizIndex++;
+  try {
+    if (quiz[quizIndex].correct === e.target.textContent) {
+      alert("◎ 正解！！");
+      score++;
+    } else {
+      alert(`× 不正解！\n正解は "${quiz[quizIndex].correct}" です`);
+    }
+    // 次の問題へ進むためのインデックス変数
+    quizIndex++;
 
-  if (quizIndex < quiz.length) {
-    // 問題数がまだある場合の処理
-    setupQuiz();
-  } else {
-    // 問題数がもう無い場合の処理
-    const result = document.getElementById("result");
-    $progress.style.width = `100%`;
-    $quizRemainNum.textContent = 0;
-    result.textContent = `終了！！ あなたの正解数は${score}/${quiz.length}です！`;
-    $retry.style.display = $displayOriginal;
-  }
+    if (quizIndex < quiz.length) {
+      // 問題数がまだある場合の処理
+      setupQuiz();
+    } else {
+      // 問題数がもう無い場合の処理
+      const result = document.getElementById("result");
+      $progress.style.width = `100%`;
+      $quizRemainNum.textContent = 0;
+      result.textContent = `終了！！ あなたの正解数は${score}/${quiz.length}です！`;
+      $retry.style.display = $displayOriginal;
+    }
+  } catch (error) {}
 };
 
 let handlerIndex = 0;
